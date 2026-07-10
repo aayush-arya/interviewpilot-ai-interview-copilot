@@ -17,6 +17,8 @@ USER appuser
 
 EXPOSE 8002
 HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
-  CMD curl -sf http://localhost:8002/api/v1/health || exit 1
+  CMD curl -sf http://localhost:${PORT:-8002}/api/v1/health || exit 1
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8002"]
+# $PORT is injected by hosts like Render/Railway; defaults to 8002 locally.
+# Seeds demo data on every boot (idempotent) so a fresh deploy is immediately usable.
+CMD ["sh", "-c", "python -m app.seed && uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8002}"]

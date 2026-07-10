@@ -1,6 +1,9 @@
 import axios, { AxiosError } from 'axios';
 
-const client = axios.create({ baseURL: '/api/v1' });
+// Local dev: relative path works via the Vite proxy to localhost:8002.
+// Production (Vercel): set VITE_API_BASE_URL to the deployed backend's URL,
+// e.g. https://interviewpilot-api.onrender.com/api/v1
+const client = axios.create({ baseURL: import.meta.env.VITE_API_BASE_URL || '/api/v1' });
 
 export const tokenStore = {
   get access() {
