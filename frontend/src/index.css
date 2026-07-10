@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply antialiased bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100;
+  }
+  ::selection {
+    @apply bg-brand-500/30;
+  }
+}
+
+@layer components {
+  /* Glassmorphism card */
+  .glass {
+    @apply rounded-2xl border border-slate-200/70 bg-white/70 backdrop-blur-xl shadow-sm
+      dark:border-white/10 dark:bg-white/5;
+  }
+  .glass-strong {
+    @apply rounded-2xl border border-slate-200 bg-white/90 backdrop-blur-2xl shadow-lg
+      dark:border-white/10 dark:bg-slate-900/80;
+  }
+  .input {
+    @apply w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm outline-none
+      transition focus:border-brand-500 focus:ring-2 focus:ring-brand-500/30
+      dark:border-white/10 dark:bg-white/5 dark:placeholder-slate-500;
+  }
+  /* Native <select> popups ignore the translucent input bg — give options solid,
+     readable colors in both themes. */
+  select.input {
+    @apply cursor-pointer;
+  }
+  select.input option {
+    @apply bg-white font-medium text-slate-800;
+  }
+  .dark select.input option {
+    @apply bg-slate-900 text-slate-100;
+  }
+  .dark select.input option:checked {
+    @apply bg-brand-600 text-white;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold
+      transition active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn bg-gradient-to-r from-brand-600 to-violet-600 text-white shadow-lg shadow-brand-600/25
+      hover:from-brand-500 hover:to-violet-500;
+  }
+  .btn-ghost {
+    @apply btn border border-slate-300 text-slate-700 hover:bg-slate-100
+      dark:border-white/10 dark:text-slate-200 dark:hover:bg-white/5;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { @apply rounded-full bg-slate-300 dark:bg-slate-700; }
+::-webkit-scrollbar-track { background: transparent; }

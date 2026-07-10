@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Lint
+        run: ruff check app tests
+      - name: Tests (mock AI, SQLite — no secrets needed)
+        run: pytest -q
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci --no-fund --no-audit
+      - name: Typecheck + build
+        run: npm run build
+
+  docker:
+    needs: [backend, frontend]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build images
+        run: |
+          docker build -t interviewpilot-backend:${{ github.sha }} backend
+          docker build -t interviewpilot-frontend:${{ github.sha }} frontend
+      # Push + deploy template (uncomment and configure secrets):
+      # - uses: aws-actions/configure-aws-credentials@v4
+      #   with: { role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE }}, aws-region: us-east-1 }
+      # - run: |
+      #     aws ecr get-login-password | docker login --username AWS --password-stdin $ECR
+      #     docker tag interviewpilot-backend:${{ github.sha }} $ECR/interviewpilot-backend:${{ github.sha }}
+      #     docker push $ECR/interviewpilot-backend:${{ github.sha }}
+      #     aws ecs update-service --cluster prod --service interviewpilot --force-new-deployment

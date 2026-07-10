@@ -1,0 +1,19 @@
+fastapi>=0.115
+uvicorn[standard]>=0.34
+sqlalchemy>=2.0.41
+pydantic>=2.11
+pydantic-settings>=2.7
+python-multipart>=0.0.20
+bcrypt>=4.2
+pyjwt>=2.10
+anthropic>=0.42
+pypdf>=5.1
+httpx>=0.28
+email-validator>=2.2
+redis>=5.2
+pytest>=8.3
+ruff>=0.8
+
+# PostgreSQL driver — used by the Docker/production setup; SQLite needs nothing.
+# Uncomment (or use the Docker image, which installs it) when pointing DATABASE_URL at Postgres:
+# psycopg[binary]>=3.2
