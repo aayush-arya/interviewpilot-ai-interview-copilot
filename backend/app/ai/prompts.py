@@ -6,15 +6,15 @@ Design rules (see docs/AI_WORKFLOWS.md):
 - one focused prompt per chain (no mega-prompts)
 """
 
+# Company styles live in app/ai/companies.py (65+ profiles with focus areas and
+# signature questions). This mapping feeds the interviewer system prompt.
+from app.ai.companies import COMPANIES, company_style_prompt, signature_questions
+
 TRACKS = [
     "Java", "Python", "C++", "JavaScript", "Spring Boot", "React", "Node.js",
     "MongoDB", "SQL", "AWS", "Docker", "CI/CD", "Operating Systems", "Networking",
     "OOP", "DBMS", "System Design", "LLD", "HLD", "Behavioral", "HR", "Data Structures & Algorithms",
 ]
-
-# Company styles live in app/ai/companies.py (65+ profiles with focus areas and
-# signature questions). This mapping feeds the interviewer system prompt.
-from app.ai.companies import COMPANIES, company_style_prompt, signature_questions
 
 COMPANY_STYLES: dict[str, str] = {name: company_style_prompt(name) for name in COMPANIES}
 

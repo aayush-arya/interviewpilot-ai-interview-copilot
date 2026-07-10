@@ -1,7 +1,7 @@
 """Dashboard + analytics aggregations over reports, submissions and events."""
 import json
 from collections import defaultdict
-from datetime import date, timedelta
+from datetime import date
 
 from sqlalchemy.orm import Session
 

@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 
 from app.core.deps import require_admin
 from app.db.session import get_db
-from app.models import CodingSubmission, FeedbackReport, InterviewSession, User
+from app.models import CodingSubmission, FeedbackReport, InterviewSession
 from app.repositories.content import EventRepository
 from app.repositories.users import UserRepository
 from app.schemas.auth import UserOut
